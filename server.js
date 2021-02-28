@@ -134,17 +134,30 @@ const addRole = () => {
           }, 
           {
             name: "roleDept",
-            type: "input",
-            message: "Enter Role Department [1] Sales, [2] Engineering, [3] Finance, [4] Legal"
+            type: "list",
+            message: "Select Role Department",
+            choices: ['Sales', 'Engineering', 'Finance', 'Legal']
 
           } 
       ]).then(function(res) {
+          let selectRoleDept = {};
+          selectRoleDept = parseInt(res.roleDept.split('')[0]);
+          if (res.roleDept === 'Sales') {
+            selectRoleDept = 1;
+          } else if (res.roleDept === 'Engineering') {
+            selectRoleDept = 2;
+          } else if (res.roleDept === 'Finance') {
+            selectRoleDept = 3;
+          } else if (res.roleDept === 'Legal') {
+            selectRoleDept = 4;
+          }
+
           connection.query(
               "INSERT INTO role SET ?",
               {
                 title: res.roleName,
                 salary: res.roleSalary,
-                department_id: res.roleDept,
+                department_id: selectRoleDept,
               },
               function(err) {
                   if (err) throw err
@@ -190,17 +203,27 @@ const addEmployee = () => {
         },
         {
           name: "newManager",
-          type: "input",
-          message: "Enter Manager ID [1] Engineering, [2] Legal, [3]Sales",
+          type: "list",
+          message: "Select Manager ID",
+          choices: ['Engineering', 'Legal', 'Sales']
         }
     ]).then(function (res) {
       var newRole = selectRole().indexOf(res.newRole) + 1
+      let setManager = {};
+      setManager = parseInt(res.newManager.split('')[0]);
+      if (res.newManager === 'Engineering') {
+        setManager = 1;
+      } else if (res.newManager === 'Legal') {
+        setManager = 2;
+      } else if (res.newManager === 'Sales') {
+        setManager = 3;
+      }
       connection.query("INSERT INTO employee SET ?", 
       {
           first_name: res.newFirst,
           last_name: res.newLast,
           role_id: newRole,
-          manager_id: res.newManager,
+          manager_id: setManager
                     
       }, function(err){
           if (err) throw err
@@ -226,12 +249,12 @@ const updateEmployee = () => {
         {
           type: "list",
           name: "updateEmpRole",
-          message: "select employee to update role",
-          choices: allemp
+          message: "Select Employee To Update",
+          choices: "allemp"
         },
         {
           type: "list",
-          message: "select new role",
+          message: "Select New Role",
           choices: ['Lead Engineer', 'Legal Team Lead', 'Sales Lead', 'Accountant', 'Salesperson', 'Software Engineer', 'Lawyer'],
           name: "newrole"
         }
