@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "Kirlo!1987",
+    password: "",
     database: "employeedb"
 });
 connection.connect(err => {
@@ -250,7 +250,7 @@ const updateEmployee = () => {
           type: "list",
           name: "updateEmpRole",
           message: "Select Employee To Update",
-          choices: "allemp"
+          choices: allemp
         },
         {
           type: "list",
