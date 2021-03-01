@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "",
+    password: "Kirlo!1987",
     database: "employeedb"
 });
 connection.connect(err => {
@@ -36,15 +36,15 @@ const startApp = () => {
     ]).then(function (res) {
         switch (res.choice) {
             case "View All Employees":
-                viewAllEmployees();
+                viewEmp();
             break;
 
             case "View All Roles":
-                viewAllRoles();
+                viewRole();
             break;
 
             case "View All Departments":
-                viewAllDepartments();
+                viewDept();
             break;
 
             case "Add Department":
@@ -68,7 +68,7 @@ const startApp = () => {
 }
 
 // view departments
-const viewAllDepartments = () => {
+const viewDept = () => {
     connection.query("SELECT * FROM department;", 
     function(err, res) {
       if (err) throw err
@@ -78,17 +78,17 @@ const viewAllDepartments = () => {
   }
 
 // view roles
-const viewAllRoles = () => {
+const viewRole = () => {
     connection.query("SELECT * FROM role", 
     function(err, res) {
-    if (err) throw err
-    console.table(res)
-    startApp()
+      if (err) throw err
+      console.table(res)
+      startApp()
     })
   }
 
 // view all employees
-const viewAllEmployees = () => {
+const viewEmp = () => {
     connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(emp.first_name, ' ' ,emp.last_name) AS Manager FROM employee INNER JOIN role ON role.id = employee.role_id INNER JOIN department ON department.id = role.department_id LEFT JOIN employee emp ON employee.manager_id = emp.id;", 
     function(err, res) {
       if (err) throw err
